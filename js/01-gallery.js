@@ -27,5 +27,16 @@ function createGalleryMarkup(galleryItems) {
 }
 
 function onImgGalleryContainerClick(evt) {
-  console.log(evt.target);
+  evt.preventDefault();
+  const isGalleryAnchorEl = evt.target.classList.contains(`gallery__image`);
+
+  if (!isGalleryAnchorEl) {
+    return;
+  }
+
+  // console.log(evt.target.dataset);
+}
+
+function createModalWindow() {
+  basicLightbox.create(``);
 }
