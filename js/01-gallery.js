@@ -35,8 +35,17 @@ function onImgGalleryContainerClick(evt) {
     return;
   }
   const originalImgRef = evt.target.dataset.source;
+  console.log(originalImgRef);
   const createOrgImgModal = basicLightbox.create(`
-    <img src= ${originalImgRef}>
-`);
+    <img src= ${originalImgRef}>`);
+
   createOrgImgModal.show();
+
+  window.addEventListener("keydown", onOrgImgClosePress);
+
+  function onOrgImgClosePress(evt) {
+    if (evt.code === `Escape`) {
+      createOrgImgModal.close();
+    }
+  }
 }
