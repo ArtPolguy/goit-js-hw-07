@@ -1,13 +1,13 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
+const refs = {
+  galleryContainer: document.querySelector(`.gallery`),
+  galleryMarkup: createGalleryMarkup(galleryItems),
+};
 
-const galleryContainer = document.querySelector(`.gallery`);
+refs.galleryContainer.insertAdjacentHTML("afterbegin", refs.galleryMarkup);
 
-const galleryMarkup = createGalleryMarkup(galleryItems);
-
-galleryContainer.insertAdjacentHTML("afterbegin", galleryMarkup);
-
-galleryContainer.addEventListener(`click`, onImgGalleryContainerClick);
+refs.galleryContainer.addEventListener(`click`, onImgGalleryContainerClick);
 
 function createGalleryMarkup(galleryItems) {
   return galleryItems
@@ -28,15 +28,15 @@ function createGalleryMarkup(galleryItems) {
 
 function onImgGalleryContainerClick(evt) {
   evt.preventDefault();
+
   const isGalleryAnchorEl = evt.target.classList.contains(`gallery__image`);
 
   if (!isGalleryAnchorEl) {
     return;
   }
-
-  // console.log(evt.target.dataset);
-}
-
-function createModalWindow() {
-  basicLightbox.create(``);
+  const originalImgRef = evt.target.dataset.source;
+  const createOrgImgModal = basicLightbox.create(`
+    <img src= ${originalImgRef}>
+`);
+  createOrgImgModal.show();
 }
