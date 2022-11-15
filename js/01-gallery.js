@@ -9,6 +9,7 @@ refs.galleryContainer.insertAdjacentHTML("afterbegin", refs.galleryMarkup);
 
 refs.galleryContainer.addEventListener(`click`, onImgGalleryContainerClick);
 
+// ======================================== Create Markup =====================================
 function createGalleryMarkup(galleryItems) {
   return galleryItems
     .map(({ preview, original, description }) => {
@@ -25,7 +26,7 @@ function createGalleryMarkup(galleryItems) {
     })
     .join(" ");
 }
-
+// ======================================== event on Click of Img Gallery =========================
 function onImgGalleryContainerClick(evt) {
   evt.preventDefault();
 
@@ -34,16 +35,26 @@ function onImgGalleryContainerClick(evt) {
   if (!isGalleryAnchorEl) {
     return;
   }
+
   const originalImgRef = evt.target.dataset.source;
 
-  const createOrgImgModal = basicLightbox.create(`
-    <img src= ${originalImgRef}>`);
-
-  createOrgImgModal.show();
-
-  window.addEventListener("keydown", (evt) => {
+  const onModalClosePress = (evt) => {
     if (evt.code === `Escape`) {
       createOrgImgModal.close();
     }
-  });
+  };
+
+  const createOrgImgModal = basicLightbox.create(
+    `
+    <img src= ${originalImgRef}>`,
+    {
+      onShow: () => {
+        window.addEventListener("keydown", onModalClosePress);
+      },
+      onClose: () => {
+        window.removeEventListener(`keydown`, onModalClosePress);
+      },
+    }
+  );
+  createOrgImgModal.show();
 }
